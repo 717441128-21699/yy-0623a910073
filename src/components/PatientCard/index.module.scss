@@ -1,0 +1,162 @@
+@use '@/styles/variables.scss' as *;
+
+.card {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: 0 2rpx 12rpx rgba(15, 165, 165, 0.08);
+  transition: all $transition-base;
+  
+  &.clickable {
+    &:active {
+      transform: scale(0.99);
+      box-shadow: 0 1rpx 6rpx rgba(15, 165, 165, 0.06);
+    }
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: $spacing-md;
+}
+
+.avatarText {
+  font-size: 36rpx;
+  font-weight: $font-weight-semibold;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-xs;
+}
+
+.name {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-right: $spacing-sm;
+}
+
+.genderAge {
+  display: flex;
+  align-items: center;
+}
+
+.genderText,
+.ageText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.separator {
+  margin: 0 $spacing-xs;
+  color: $color-text-tertiary;
+  font-size: $font-size-sm;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+}
+
+.phone {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.recordNo {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.actionBtn {
+  padding: $spacing-sm $spacing-md;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  margin-left: $spacing-md;
+  flex-shrink: 0;
+  
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.actionText {
+  font-size: $font-size-sm;
+  color: $color-text-white;
+  font-weight: $font-weight-medium;
+}
+
+.details {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+}
+
+.tag {
+  padding: 4rpx $spacing-sm;
+  background: $color-primary-bg;
+  border-radius: $radius-xs;
+}
+
+.tagText {
+  font-size: $font-size-xs;
+  color: $color-primary-dark;
+}
+
+.remarkRow {
+  display: flex;
+  margin-bottom: $spacing-sm;
+  @include text-ellipsis-multi(2);
+}
+
+.remarkLabel {
+  font-size: $font-size-sm;
+  color: $color-warning;
+  flex-shrink: 0;
+}
+
+.remarkText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  flex: 1;
+  @include text-ellipsis-multi(2);
+}
+
+.visitRow {}
+
+.visitText {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.visitCount {
+  color: $color-primary;
+  font-weight: $font-weight-medium;
+}

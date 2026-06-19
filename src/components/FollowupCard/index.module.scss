@@ -1,0 +1,307 @@
+@use '@/styles/variables.scss' as *;
+
+// ============= Default Card Styles =============
+.card {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: 0 2rpx 12rpx rgba(15, 165, 165, 0.08);
+  overflow: hidden;
+  transition: all $transition-base;
+  
+  &.clickable {
+    &:active {
+      transform: scale(0.99);
+      box-shadow: 0 1rpx 6rpx rgba(15, 165, 165, 0.06);
+    }
+  }
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: $spacing-lg $spacing-lg $spacing-md;
+  background: linear-gradient(135deg, rgba(15, 165, 165, 0.04) 0%, rgba(61, 197, 197, 0.02) 100%);
+}
+
+.dateInfo {}
+
+.dateMain {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: $spacing-xs;
+}
+
+.dateLabel {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-primary-dark;
+  margin-right: $spacing-sm;
+}
+
+.weekday {
+  font-size: $font-size-sm;
+  color: $color-primary;
+}
+
+.timeSlot {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.badgeGroup {
+  display: flex;
+  gap: $spacing-xs;
+}
+
+.patientBlock {
+  display: flex;
+  align-items: center;
+  padding: $spacing-md $spacing-lg;
+  border-top: 1rpx solid $color-divider;
+  
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.avatarMini {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-md;
+  font-size: 28rpx;
+  font-weight: $font-weight-semibold;
+  flex-shrink: 0;
+}
+
+.patientInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.patientLine1 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4rpx;
+}
+
+.patientName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-right: $spacing-sm;
+}
+
+.patientAge {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.patientPhone {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.treatmentBlock {
+  padding: $spacing-md $spacing-lg;
+  border-top: 1rpx solid $color-divider;
+}
+
+.treatmentRow {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: $spacing-sm;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.treatmentTag {
+  flex-shrink: 0;
+  margin-right: $spacing-md;
+  padding-top: 4rpx;
+}
+
+.treatmentLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.treatmentValue {
+  flex: 1;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  line-height: 1.5;
+}
+
+.noteBlock {
+  padding: $spacing-md $spacing-lg;
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.3) 0%, rgba(254, 243, 199, 0.1) 100%);
+  border-top: 1rpx solid $color-divider;
+}
+
+.noteTitle {
+  font-size: $font-size-sm;
+  color: $color-warning;
+  font-weight: $font-weight-medium;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.noteContent {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.6;
+}
+
+.frontDeskBlock {
+  padding: $spacing-md $spacing-lg;
+  background: linear-gradient(135deg, rgba(224, 242, 254, 0.3) 0%, rgba(224, 242, 254, 0.1) 100%);
+  border-top: 1rpx solid $color-divider;
+}
+
+.frontDeskTitle {
+  font-size: $font-size-sm;
+  color: $color-info;
+  font-weight: $font-weight-medium;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.frontDeskContent {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.6;
+}
+
+// ============= Compact Card Styles =============
+.compactCard {
+  display: flex;
+  padding: $spacing-md;
+}
+
+.compactLeft {
+  margin-right: $spacing-md;
+  flex-shrink: 0;
+}
+
+.dateBlock {
+  width: 96rpx;
+  height: 96rpx;
+  background: linear-gradient(135deg, $color-primary-bg 0%, rgba(15, 165, 165, 0.05) 100%);
+  border-radius: $radius-md;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dateDay {
+  font-size: 40rpx;
+  font-weight: $font-weight-bold;
+  color: $color-primary-dark;
+  line-height: 1;
+}
+
+.dateMonth {
+  font-size: $font-size-xs;
+  color: $color-primary;
+  margin-top: 4rpx;
+}
+
+.compactMain {
+  flex: 1;
+  min-width: 0;
+}
+
+.compactRow1 {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-xs;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.treatmentName {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+}
+
+.compactRow2 {
+  display: flex;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-xs;
+}
+
+.compactNote {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  @include text-ellipsis-multi(1);
+}
+
+// ============= Timeline Card Styles =============
+.timelineCard {
+  display: flex;
+  padding-left: $spacing-sm;
+}
+
+.timelineLeft {
+  width: 48rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.timeDot {
+  width: 20rpx;
+  height: 20rpx;
+  background: $color-primary;
+  border-radius: $radius-round;
+  border: 4rpx solid $color-primary-bg;
+  margin-top: $spacing-sm;
+}
+
+.timeLine {
+  width: 4rpx;
+  flex: 1;
+  background: linear-gradient(180deg, $color-primary 0%, $color-primary-bg 100%);
+  border-radius: 2rpx;
+  margin-top: $spacing-xs;
+}
+
+.timelineContent {
+  flex: 1;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
+  margin-left: $spacing-xs;
+  box-shadow: 0 2rpx 8rpx rgba(15, 165, 165, 0.06);
+}
+
+.timeRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+}
+
+.timeText {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-primary-dark;
+}
+
+.patientRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-xs;
+  gap: $spacing-sm;
+}

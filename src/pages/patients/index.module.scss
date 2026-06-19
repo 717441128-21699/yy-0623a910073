@@ -1,0 +1,259 @@
+@use '@/styles/variables.scss' as *;
+
+.pageWrapper {
+  min-height: 100vh;
+  padding-bottom: 48rpx;
+}
+
+.headerArea {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  padding: $spacing-lg $page-padding $spacing-xl;
+  padding-top: calc(env(safe-area-inset-top) + #{$spacing-lg});
+  border-radius: 0 0 32rpx 32rpx;
+}
+
+.headerTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $color-text-white;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.headerSubtitle {
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.85);
+  display: block;
+  margin-bottom: $spacing-lg;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: $radius-button;
+  padding: 0 $spacing-lg;
+  height: 80rpx;
+}
+
+.searchIcon {
+  font-size: 32rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: $spacing-sm;
+}
+
+.searchInput {
+  flex: 1;
+  font-size: $font-size-md;
+  color: $color-text-white;
+}
+
+.searchPlaceholder {
+  flex: 1;
+  font-size: $font-size-md;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.contentArea {
+  padding: 0 $page-padding;
+  margin-top: -$spacing-md;
+}
+
+.quickStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+  box-shadow: 0 4rpx 16rpx rgba(15, 165, 165, 0.1);
+}
+
+.quickStatItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-sm 0;
+  
+  &:active {
+    background: $color-bg-hover;
+    border-radius: $radius-md;
+  }
+}
+
+.quickStatIcon {
+  font-size: 36rpx;
+  margin-bottom: 4rpx;
+}
+
+.quickStatValue {
+  font-size: 32rpx;
+  font-weight: $font-weight-bold;
+  color: $color-primary-dark;
+  line-height: 1.2;
+}
+
+.quickStatLabel {
+  font-size: 20rpx;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+}
+
+.filterBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.filterLeft {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.filterChip {
+  padding: $spacing-xs $spacing-md;
+  background: $color-bg-card;
+  border-radius: $radius-button;
+  border: 2rpx solid transparent;
+  transition: all $transition-base;
+  
+  &.active {
+    background: $color-primary-bg;
+    border-color: $color-primary;
+    
+    .filterChipText {
+      color: $color-primary-dark;
+      font-weight: $font-weight-medium;
+    }
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.filterChipText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.filterRight {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: $spacing-xs $spacing-sm;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+}
+
+.filterSortText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-right: 4rpx;
+}
+
+.patientList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.listLetterHeader {
+  display: flex;
+  align-items: center;
+  padding: $spacing-sm 0;
+  padding-left: $spacing-md;
+}
+
+.letterBadge {
+  width: 48rpx;
+  height: 48rpx;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-sm;
+}
+
+.letterText {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+}
+
+.letterCount {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xl * 3 $spacing-lg;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+}
+
+.emptyIcon {
+  font-size: 100rpx;
+  margin-bottom: $spacing-md;
+  opacity: 0.6;
+}
+
+.emptyTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.emptyDesc {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.addPatientBtn {
+  position: fixed;
+  right: $page-padding;
+  bottom: calc(env(safe-area-inset-bottom) + 180rpx);
+  width: 108rpx;
+  height: 108rpx;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(15, 165, 165, 0.35);
+  z-index: 99;
+  transition: all $transition-base;
+  
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 0 4rpx 12rpx rgba(15, 165, 165, 0.3);
+  }
+}
+
+.addPatientIcon {
+  font-size: 48rpx;
+  color: $color-text-white;
+  font-weight: $font-weight-bold;
+}
+
+.addPatientLabel {
+  position: absolute;
+  bottom: -44rpx;
+  font-size: $font-size-xs;
+  color: $color-primary-dark;
+  white-space: nowrap;
+  font-weight: $font-weight-medium;
+}

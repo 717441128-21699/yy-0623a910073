@@ -1,0 +1,480 @@
+@use '@/styles/variables.scss' as *;
+
+.pageWrapper {
+  min-height: 100vh;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 140rpx);
+}
+
+.statusHeader {
+  padding: $spacing-xl $page-padding;
+  padding-top: calc(env(safe-area-inset-top) + #{$spacing-md});
+  position: relative;
+  overflow: hidden;
+}
+
+.statusConfirmed {
+  background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+}
+.statusPending {
+  background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+}
+.statusUnconfirmed {
+  background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+}
+.statusNoShow {
+  background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%);
+}
+.statusCompleted {
+  background: linear-gradient(135deg, #4B5563 0%, #6B7280 100%);
+}
+.statusOther {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+}
+
+.statusBadgeRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.statusBadge {
+  padding: $spacing-xs $spacing-md;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: $radius-button;
+  margin-right: $spacing-sm;
+}
+
+.statusBadgeText {
+  font-size: $font-size-sm;
+  color: $color-text-white;
+  font-weight: $font-weight-semibold;
+}
+
+.urgencyBadge {
+  padding: $spacing-xs $spacing-md;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: $radius-button;
+}
+
+.urgencyBadgeText {
+  font-size: $font-size-sm;
+  color: $color-text-white;
+}
+
+.dateDisplay {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: $spacing-sm;
+}
+
+.dateMain {
+  font-size: 64rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  margin-right: $spacing-md;
+  line-height: 1;
+}
+
+.dateSub {
+  font-size: $font-size-md;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.timeRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+}
+
+.timeIcon {
+  font-size: 28rpx;
+  margin-right: $spacing-xs;
+  opacity: 0.9;
+}
+
+.timeText {
+  font-size: $font-size-md;
+  color: $color-text-white;
+  font-weight: $font-weight-medium;
+}
+
+.decorShape {
+  position: absolute;
+  right: -40rpx;
+  top: 40rpx;
+  width: 200rpx;
+  height: 200rpx;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+
+.contentArea {
+  padding: 0 $page-padding;
+  margin-top: -$spacing-md;
+}
+
+.patientCard {
+  background: $color-bg-card;
+  border-radius: $radius-xl;
+  padding: $spacing-lg;
+  box-shadow: 0 8rpx 24rpx rgba(15, 165, 165, 0.12);
+  margin-bottom: $spacing-md;
+}
+
+.patientHeader {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 96rpx;
+  height: 96rpx;
+  background: $color-primary-bg;
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-md;
+  flex-shrink: 0;
+}
+
+.avatarText {
+  font-size: 40rpx;
+  font-weight: $font-weight-bold;
+  color: $color-primary-dark;
+}
+
+.patientInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.patientNameRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-xs;
+}
+
+.patientName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-right: $spacing-sm;
+}
+
+.patientGenderAge {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.patientPhone {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.viewAllBtn {
+  padding: $spacing-xs $spacing-md;
+  background: $color-primary-bg;
+  border-radius: $radius-button;
+  flex-shrink: 0;
+  
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.viewAllBtnText {
+  font-size: $font-size-xs;
+  color: $color-primary-dark;
+  font-weight: $font-weight-medium;
+}
+
+.infoCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: 0 2rpx 12rpx rgba(15, 165, 165, 0.08);
+  margin-bottom: $spacing-md;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.sectionIcon {
+  font-size: 32rpx;
+  margin-right: $spacing-sm;
+}
+
+.sectionTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  flex: 1;
+}
+
+.infoRow {
+  display: flex;
+  align-items: flex-start;
+  padding: $spacing-sm 0;
+  border-bottom: 2rpx solid $color-divider;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.infoLabel {
+  width: 160rpx;
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  flex-shrink: 0;
+}
+
+.infoValue {
+  flex: 1;
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  line-height: 1.6;
+}
+
+.infoValueHighlight {
+  color: $color-primary-dark;
+  font-weight: $font-weight-medium;
+}
+
+.infoValueWarning {
+  color: $color-warning;
+  font-weight: $font-weight-medium;
+}
+
+.remarkBox {
+  background: linear-gradient(135deg, $color-warning-bg 0%, rgba(254, 243, 199, 0.3) 100%);
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  border-left: 6rpx solid $color-warning;
+}
+
+.remarkTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-warning;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.remarkContent {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.6;
+}
+
+.frontDeskBox {
+  background: linear-gradient(135deg, $color-info-bg 0%, rgba(224, 242, 254, 0.3) 100%);
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  border-left: 6rpx solid $color-info;
+}
+
+.frontDeskTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-info;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.frontDeskContent {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.6;
+}
+
+.followupAttempts {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.attemptItem {
+  display: flex;
+  align-items: flex-start;
+  padding: $spacing-md;
+  background: $color-bg-page;
+  border-radius: $radius-md;
+  position: relative;
+  padding-left: 80rpx;
+}
+
+.attemptIcon {
+  position: absolute;
+  left: $spacing-md;
+  top: $spacing-md;
+  width: 48rpx;
+  height: 48rpx;
+  background: $color-info-bg;
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+}
+
+.attemptContent {
+  flex: 1;
+}
+
+.attemptRow1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4rpx;
+}
+
+.attemptMethod {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.attemptTime {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.attemptRow2 {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: 4rpx;
+}
+
+.attemptNote {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.attemptResult {
+  display: inline-block;
+  padding: 2rpx $spacing-sm;
+  border-radius: $radius-xs;
+  margin-right: $spacing-xs;
+  font-size: 20rpx;
+  font-weight: $font-weight-medium;
+}
+
+.resultConnected { background: $color-success-bg; color: $color-success; }
+.resultNoAnswer { background: $color-warning-bg; color: $color-warning; }
+.resultBusy { background: $color-error-bg; color: $color-error; }
+.resultRescheduled { background: $color-success-bg; color: $color-success; }
+.resultRefused { background: $color-error-bg; color: $color-error; }
+
+.nextActionBox {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  border: 2rpx dashed $color-warning;
+  margin-top: $spacing-md;
+}
+
+.nextActionTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-warning;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.nextActionContent {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.6;
+}
+
+.emptyAttempts {
+  padding: $spacing-lg;
+  text-align: center;
+}
+
+.emptyAttemptsText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.bottomBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  padding: $spacing-md $page-padding;
+  padding-bottom: calc(env(safe-area-inset-bottom) + #{$spacing-md});
+  display: flex;
+  gap: $spacing-md;
+  box-shadow: 0 -4rpx 16rpx rgba(15, 165, 165, 0.08);
+  z-index: 100;
+}
+
+.actionBtn {
+  flex: 1;
+  height: 88rpx;
+  background: $color-bg-page;
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+  
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.actionBtnText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.primaryBtn {
+  flex: 2;
+  height: 88rpx;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(15, 165, 165, 0.25);
+  transition: all $transition-base;
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.primaryBtnText {
+  font-size: $font-size-md;
+  color: $color-text-white;
+  font-weight: $font-weight-semibold;
+}
+
+.dangerBtn {
+  flex: 1;
+  height: 88rpx;
+  background: linear-gradient(135deg, $color-error 0%, #F87171 100%);
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.dangerBtnText {
+  font-size: $font-size-sm;
+  color: $color-text-white;
+  font-weight: $font-weight-medium;
+}

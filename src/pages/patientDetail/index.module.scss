@@ -1,0 +1,415 @@
+@use '@/styles/variables.scss' as *;
+
+.pageWrapper {
+  min-height: 100vh;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 140rpx);
+}
+
+.patientHeader {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  padding: $spacing-xl $page-padding $spacing-xl * 2;
+  padding-top: calc(env(safe-area-inset-top) + #{$spacing-md});
+  border-radius: 0 0 40rpx 40rpx;
+  position: relative;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 160rpx;
+  height: 160rpx;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: $radius-round;
+  border: 6rpx solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: $spacing-lg;
+}
+
+.avatarText {
+  font-size: 64rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+}
+
+.infoBlock {
+  flex: 1;
+  min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-xs;
+}
+
+.nameText {
+  font-size: 44rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  margin-right: $spacing-md;
+}
+
+.genderBadge {
+  padding: 4rpx $spacing-sm;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: $radius-sm;
+  margin-right: $spacing-xs;
+}
+
+.genderBadgeText {
+  font-size: $font-size-xs;
+  color: $color-text-white;
+  font-weight: $font-weight-medium;
+}
+
+.ageText {
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.phoneRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-xs;
+}
+
+.phoneIcon {
+  font-size: 24rpx;
+  margin-right: $spacing-xs;
+  opacity: 0.9;
+}
+
+.phoneText {
+  font-size: $font-size-md;
+  color: $color-text-white;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.metaTag {
+  padding: 4rpx $spacing-sm;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: $radius-sm;
+}
+
+.metaTagText {
+  font-size: $font-size-xs;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.statsRow {
+  position: absolute;
+  left: $page-padding;
+  right: $page-padding;
+  bottom: -60rpx;
+  background: $color-bg-card;
+  border-radius: $radius-xl;
+  padding: $spacing-md 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  box-shadow: 0 8rpx 24rpx rgba(15, 165, 165, 0.18);
+}
+
+.statCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    height: 60%;
+    width: 2rpx;
+    background: $color-divider;
+  }
+  
+  &:last-child::after {
+    display: none;
+  }
+}
+
+.statNum {
+  font-size: 36rpx;
+  font-weight: $font-weight-bold;
+  color: $color-primary-dark;
+  line-height: 1.2;
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.statLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.contentArea {
+  padding: $spacing-xl * 1.5 $page-padding 0;
+}
+
+.sectionCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: 0 2rpx 12rpx rgba(15, 165, 165, 0.08);
+  margin-bottom: $spacing-md;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+}
+
+.sectionTitleBar {
+  width: 6rpx;
+  height: 28rpx;
+  background: linear-gradient(180deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-xs;
+  margin-right: $spacing-sm;
+}
+
+.sectionTitleText {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.sectionExtra {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  display: flex;
+  align-items: center;
+  
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.remarkBox {
+  background: linear-gradient(135deg, $color-warning-bg 0%, rgba(254, 243, 199, 0.4) 100%);
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  border-left: 6rpx solid $color-warning;
+}
+
+.remarkLabel {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-warning;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.remarkText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.6;
+}
+
+.healthList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.healthItem {
+  display: flex;
+  align-items: center;
+  padding: $spacing-sm $spacing-md;
+  background: $color-bg-page;
+  border-radius: $radius-md;
+}
+
+.healthIcon {
+  font-size: 24rpx;
+  margin-right: $spacing-xs;
+}
+
+.healthText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.visitList {
+  display: flex;
+  flex-direction: column;
+}
+
+.visitItem {
+  padding: $spacing-md 0;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    left: 16rpx;
+    right: 0;
+    bottom: 0;
+    height: 2rpx;
+    background: $color-divider;
+  }
+  
+  &:last-child::after {
+    display: none;
+  }
+}
+
+.visitTimeline {
+  display: flex;
+  align-items: flex-start;
+}
+
+.visitDot {
+  width: 24rpx;
+  height: 24rpx;
+  background: $color-primary;
+  border-radius: $radius-round;
+  border: 4rpx solid $color-primary-bg;
+  margin-top: 8rpx;
+  margin-right: $spacing-md;
+  flex-shrink: 0;
+}
+
+.visitContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.visitDateRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-xs;
+}
+
+.visitDate {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-primary-dark;
+  margin-right: $spacing-sm;
+}
+
+.visitDoctor {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.visitDiagnosis {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+  margin-bottom: 4rpx;
+}
+
+.visitTreatment {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.5;
+}
+
+.visitTeeth {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  margin-top: $spacing-xs;
+}
+
+.teethTag {
+  padding: 2rpx $spacing-sm;
+  background: $color-info-bg;
+  border-radius: $radius-xs;
+}
+
+.teethTagText {
+  font-size: 20rpx;
+  color: $color-info;
+  font-weight: $font-weight-medium;
+}
+
+.bottomBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  padding: $spacing-md $page-padding;
+  padding-bottom: calc(env(safe-area-inset-bottom) + #{$spacing-md});
+  display: flex;
+  gap: $spacing-md;
+  box-shadow: 0 -4rpx 16rpx rgba(15, 165, 165, 0.08);
+  z-index: 100;
+}
+
+.secondaryBtn {
+  flex: 1;
+  height: 96rpx;
+  background: $color-bg-page;
+  border: 2rpx solid $color-primary-bg;
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+  
+  &:active {
+    background: $color-primary-bg;
+  }
+}
+
+.secondaryBtnText {
+  font-size: $font-size-md;
+  color: $color-primary-dark;
+  font-weight: $font-weight-medium;
+}
+
+.primaryBtn {
+  flex: 2;
+  height: 96rpx;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(15, 165, 165, 0.25);
+  transition: all $transition-base;
+  
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 2rpx 8rpx rgba(15, 165, 165, 0.2);
+  }
+}
+
+.primaryBtnText {
+  font-size: $font-size-md;
+  color: $color-text-white;
+  font-weight: $font-weight-semibold;
+}
+
+.emptyState {
+  padding: $spacing-lg 0;
+  text-align: center;
+}
+
+.emptyText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}

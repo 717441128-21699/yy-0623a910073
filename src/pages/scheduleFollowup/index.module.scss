@@ -1,0 +1,499 @@
+@use '@/styles/variables.scss' as *;
+
+.pageWrapper {
+  min-height: 100vh;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 160rpx);
+}
+
+.patientBar {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  padding: $spacing-md $page-padding;
+  padding-top: calc(env(safe-area-inset-top) + #{$spacing-md});
+  display: flex;
+  align-items: center;
+}
+
+.patientBarAvatar {
+  width: 72rpx;
+  height: 72rpx;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-md;
+  flex-shrink: 0;
+}
+
+.patientBarAvatarText {
+  font-size: 28rpx;
+  font-weight: $font-weight-semibold;
+  color: $color-text-white;
+}
+
+.patientBarInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.patientBarName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-white;
+  display: block;
+  margin-bottom: 2rpx;
+}
+
+.patientBarMeta {
+  font-size: $font-size-xs;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.patientBarTip {
+  font-size: $font-size-xs;
+  color: rgba(255, 255, 255, 0.7);
+  padding: $spacing-xs $spacing-sm;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: $radius-sm;
+  margin-left: $spacing-sm;
+  flex-shrink: 0;
+}
+
+.content {
+  padding: $spacing-md $page-padding;
+}
+
+.formSection {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: 0 2rpx 12rpx rgba(15, 165, 165, 0.08);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.stepNum {
+  width: 44rpx;
+  height: 44rpx;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-sm;
+  flex-shrink: 0;
+}
+
+.stepNumText {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+}
+
+.sectionTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  flex: 1;
+}
+
+.sectionRequired {
+  font-size: $font-size-xs;
+  color: $color-error;
+}
+
+.treatmentGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-sm;
+}
+
+.treatmentItem {
+  padding: $spacing-md;
+  border: 3rpx solid $color-border;
+  border-radius: $radius-md;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: all $transition-base;
+  
+  &.selected {
+    border-color: $color-primary;
+    background: linear-gradient(135deg, rgba(15, 165, 165, 0.06) 0%, rgba(61, 197, 197, 0.02) 100%);
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.treatmentIcon {
+  font-size: 36rpx;
+  margin-bottom: $spacing-xs;
+}
+
+.treatmentLabel {
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+  line-height: 1.4;
+  margin-bottom: 4rpx;
+}
+
+.treatmentHint {
+  font-size: 20rpx;
+  color: $color-text-tertiary;
+}
+
+.intervalRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.intervalLabel {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  width: 120rpx;
+  flex-shrink: 0;
+}
+
+.intervalValue {
+  flex: 1;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-primary-dark;
+}
+
+.intervalSuggest {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  padding: $spacing-xs $spacing-sm;
+  background: $color-info-bg;
+  border-radius: $radius-sm;
+  color: $color-info;
+  
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.intervalChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.intervalChip {
+  padding: $spacing-sm $spacing-md;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-button;
+  transition: all $transition-base;
+  
+  &.selected {
+    background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+    border-color: transparent;
+    
+    .intervalChipText {
+      color: $color-text-white;
+      font-weight: $font-weight-medium;
+    }
+  }
+  
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.intervalChipText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.purposeList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.purposeItem {
+  display: flex;
+  align-items: center;
+  padding: $spacing-sm $spacing-md;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-md;
+  transition: all $transition-base;
+  
+  &.selected {
+    border-color: $color-primary;
+    background: $color-primary-bg;
+  }
+  
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+.purposeRadio {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: $radius-round;
+  border: 3rpx solid $color-border;
+  margin-right: $spacing-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all $transition-base;
+  
+  .selected & {
+    border-color: $color-primary;
+    
+    &::after {
+      content: '';
+      width: 20rpx;
+      height: 20rpx;
+      background: $color-primary;
+      border-radius: $radius-round;
+    }
+  }
+}
+
+.purposeText {
+  flex: 1;
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+}
+
+.purposeCustom {
+  margin-top: $spacing-md;
+}
+
+.urgencyRow {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.urgencyCard {
+  flex: 1;
+  padding: $spacing-md;
+  border: 3rpx solid $color-border;
+  border-radius: $radius-md;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all $transition-base;
+  
+  &.selected {
+    transform: translateY(-4rpx);
+  }
+  
+  &.normal.selected {
+    border-color: $color-info;
+    background: $color-info-bg;
+  }
+  &.attention.selected {
+    border-color: $color-warning;
+    background: $color-warning-bg;
+  }
+  &.urgent.selected {
+    border-color: $color-error;
+    background: $color-error-bg;
+  }
+}
+
+.urgencyIcon {
+  font-size: 36rpx;
+  margin-bottom: $spacing-xs;
+}
+
+.urgencyLabel {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: 2rpx;
+}
+
+.urgencyDesc {
+  font-size: 20rpx;
+  color: $color-text-tertiary;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.noteArea {
+  width: 100%;
+  min-height: 180rpx;
+  padding: $spacing-md;
+  background: $color-bg-page;
+  border-radius: $radius-md;
+  border: 2rpx solid $color-border;
+  box-sizing: border-box;
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  line-height: 1.6;
+}
+
+.notePlaceholders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+}
+
+.placeholderTag {
+  padding: $spacing-xs $spacing-md;
+  background: $color-primary-bg;
+  border-radius: $radius-button;
+  
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.placeholderText {
+  font-size: $font-size-xs;
+  color: $color-primary-dark;
+}
+
+.previewCard {
+  background: linear-gradient(135deg, rgba(15, 165, 165, 0.06) 0%, rgba(37, 99, 235, 0.04) 100%);
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  border: 2rpx dashed $color-primary;
+  position: relative;
+}
+
+.previewHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 2rpx dashed $color-primary-bg;
+}
+
+.previewBadge {
+  padding: $spacing-xs $spacing-md;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  margin-right: $spacing-sm;
+}
+
+.previewBadgeText {
+  font-size: $font-size-xs;
+  color: $color-text-white;
+  font-weight: $font-weight-medium;
+}
+
+.previewTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.previewRow {
+  display: flex;
+  align-items: flex-start;
+  padding: $spacing-sm 0;
+}
+
+.previewLabel {
+  width: 140rpx;
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  flex-shrink: 0;
+}
+
+.previewValue {
+  flex: 1;
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+}
+
+.previewFooter {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 2rpx dashed $color-primary-bg;
+  display: flex;
+  align-items: center;
+}
+
+.previewFooterIcon {
+  font-size: 28rpx;
+  margin-right: $spacing-xs;
+}
+
+.previewFooterText {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  line-height: 1.5;
+}
+
+.bottomBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  padding: $spacing-md $page-padding;
+  padding-bottom: calc(env(safe-area-inset-bottom) + #{$spacing-md});
+  display: flex;
+  gap: $spacing-md;
+  box-shadow: 0 -4rpx 16rpx rgba(15, 165, 165, 0.08);
+  z-index: 100;
+}
+
+.cancelBtn {
+  flex: 1;
+  height: 96rpx;
+  background: $color-bg-page;
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+  
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.cancelBtnText {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.submitBtn {
+  flex: 2;
+  height: 96rpx;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(15, 165, 165, 0.25);
+  transition: all $transition-base;
+  
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 2rpx 8rpx rgba(15, 165, 165, 0.2);
+  }
+  
+  &.disabled {
+    background: $color-text-disabled;
+    box-shadow: none;
+  }
+}
+
+.submitBtnText {
+  font-size: $font-size-md;
+  color: $color-text-white;
+  font-weight: $font-weight-semibold;
+}

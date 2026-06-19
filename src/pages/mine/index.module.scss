@@ -1,0 +1,292 @@
+@use '@/styles/variables.scss' as *;
+
+.pageWrapper {
+  min-height: 100vh;
+  padding-bottom: 48rpx;
+}
+
+.profileHeader {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 50%, #5DD5D5 100%);
+  padding: $spacing-xl $page-padding;
+  padding-top: calc(env(safe-area-inset-top) + #{$spacing-xl});
+  position: relative;
+  overflow: hidden;
+}
+
+.decorCircle1 {
+  position: absolute;
+  width: 400rpx;
+  height: 400rpx;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  right: -100rpx;
+  top: -150rpx;
+}
+
+.decorCircle2 {
+  position: absolute;
+  width: 240rpx;
+  height: 240rpx;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 50%;
+  left: -60rpx;
+  bottom: -80rpx;
+}
+
+.profileCard {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 140rpx;
+  height: 140rpx;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: $radius-round;
+  border: 4rpx solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: $spacing-lg;
+}
+
+.avatarText {
+  font-size: 56rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+}
+
+.profileInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.doctorName {
+  font-size: 40rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.doctorTitle {
+  font-size: $font-size-md;
+  color: rgba(255, 255, 255, 0.9);
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.clinicName {
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+}
+
+.clinicIcon {
+  font-size: 24rpx;
+  margin-right: 6rpx;
+}
+
+.settingBtn {
+  width: 64rpx;
+  height: 64rpx;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+  &:active {
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.settingIcon {
+  font-size: 32rpx;
+}
+
+.statsArea {
+  position: relative;
+  z-index: 2;
+  margin-top: $spacing-xl;
+  background: $color-bg-card;
+  border-radius: $radius-xl;
+  padding: $spacing-lg;
+  box-shadow: 0 8rpx 24rpx rgba(15, 165, 165, 0.18);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.statsItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-sm 0;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    height: 60%;
+    width: 2rpx;
+    background: $color-divider;
+  }
+  
+  &:last-child::after {
+    display: none;
+  }
+}
+
+.statsValue {
+  font-size: 44rpx;
+  font-weight: $font-weight-bold;
+  color: $color-primary-dark;
+  line-height: 1.2;
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.statsLabel {
+  font-size: 22rpx;
+  color: $color-text-tertiary;
+}
+
+.contentArea {
+  padding: $spacing-lg $page-padding;
+}
+
+.sectionTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  padding-left: $spacing-sm;
+  display: flex;
+  align-items: center;
+}
+
+.sectionTitleBar {
+  width: 6rpx;
+  height: 28rpx;
+  background: linear-gradient(180deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-xs;
+  margin-right: $spacing-sm;
+}
+
+.menuCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(15, 165, 165, 0.06);
+  margin-bottom: $spacing-lg;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: $spacing-md $spacing-lg;
+  position: relative;
+  transition: all $transition-base;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    left: $spacing-lg;
+    right: $spacing-lg;
+    bottom: 0;
+    height: 2rpx;
+    background: $color-divider;
+  }
+  
+  &:last-child::after {
+    display: none;
+  }
+  
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.menuIcon {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-md;
+  flex-shrink: 0;
+  font-size: 36rpx;
+}
+
+.menuContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.menuTitle {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.menuSubtitle {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  @include text-ellipsis;
+}
+
+.menuRight {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: $spacing-sm;
+}
+
+.menuBadge {
+  min-width: 36rpx;
+  height: 36rpx;
+  background: $color-error;
+  color: $color-text-white;
+  border-radius: $radius-round;
+  font-size: 22rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10rpx;
+  margin-right: $spacing-sm;
+}
+
+.menuArrow {
+  font-size: 28rpx;
+  color: $color-text-tertiary;
+}
+
+.aboutCard {
+  text-align: center;
+  padding: $spacing-md;
+  margin-top: $spacing-lg;
+}
+
+.aboutText {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  line-height: 1.8;
+}
+
+.aboutHighlight {
+  color: $color-primary;
+  font-weight: $font-weight-medium;
+}

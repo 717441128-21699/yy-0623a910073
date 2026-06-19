@@ -1,0 +1,293 @@
+@use '@/styles/variables.scss' as *;
+
+.pageWrapper {
+  min-height: 100vh;
+  padding-bottom: 48rpx;
+}
+
+.searchArea {
+  background: linear-gradient(180deg, rgba(15, 165, 165, 0.08) 0%, transparent 100%);
+  padding: $spacing-lg $page-padding;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  background: $color-bg-card;
+  border-radius: $radius-button;
+  padding: 0 $spacing-lg;
+  height: 80rpx;
+  box-shadow: 0 2rpx 12rpx rgba(15, 165, 165, 0.08);
+}
+
+.searchIcon {
+  font-size: 32rpx;
+  color: $color-text-tertiary;
+  margin-right: $spacing-sm;
+}
+
+.searchInput {
+  flex: 1;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+}
+
+.searchPlaceholder {
+  flex: 1;
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+}
+
+.searchBtn {
+  padding: $spacing-xs $spacing-md;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  margin-left: $spacing-sm;
+  
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.searchBtnText {
+  font-size: $font-size-sm;
+  color: $color-text-white;
+  font-weight: $font-weight-medium;
+}
+
+.filterArea {
+  padding: 0 $page-padding $spacing-md;
+}
+
+.chipScroll {
+  white-space: nowrap;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-sm $spacing-lg;
+  background: $color-bg-card;
+  border-radius: $radius-button;
+  margin-right: $spacing-sm;
+  margin-bottom: $spacing-sm;
+  border: 2rpx solid transparent;
+  transition: all $transition-base;
+  
+  &.active {
+    background: linear-gradient(135deg, rgba(15, 165, 165, 0.1) 0%, rgba(61, 197, 197, 0.05) 100%);
+    border-color: $color-primary;
+    
+    .chipText {
+      color: $color-primary-dark;
+      font-weight: $font-weight-semibold;
+    }
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.chipText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  white-space: nowrap;
+}
+
+.chipCount {
+  margin-left: $spacing-xs;
+  padding: 0 $spacing-sm;
+  height: 32rpx;
+  background: $color-primary-bg;
+  color: $color-primary-dark;
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+}
+
+.contentArea {
+  padding: 0 $page-padding;
+}
+
+.overviewRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+.overviewItem {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  text-align: center;
+  box-shadow: 0 2rpx 8rpx rgba(15, 165, 165, 0.06);
+}
+
+.overviewValue {
+  font-size: 40rpx;
+  font-weight: $font-weight-bold;
+  color: $color-primary-dark;
+  line-height: 1.2;
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.overviewLabel {
+  font-size: 22rpx;
+  color: $color-text-secondary;
+}
+
+.overdueColor {
+  .overviewValue {
+    color: $color-error;
+  }
+}
+
+.attentionColor {
+  .overviewValue {
+    color: $color-warning;
+  }
+}
+
+.sortBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-sm 0;
+  margin-bottom: $spacing-md;
+}
+
+.sortTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.sortActions {
+  display: flex;
+  gap: $spacing-md;
+}
+
+.sortAction {
+  display: flex;
+  align-items: center;
+  
+  &.active {
+    .sortActionText {
+      color: $color-primary;
+    }
+  }
+}
+
+.sortActionText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.sortActionIcon {
+  font-size: 24rpx;
+  margin-left: 4rpx;
+}
+
+.listArea {
+  min-height: 500rpx;
+}
+
+.dateGroupHeader {
+  display: flex;
+  align-items: center;
+  padding: $spacing-md 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: transparent;
+  backdrop-filter: blur(8px);
+}
+
+.dateGroupBar {
+  width: 8rpx;
+  height: 36rpx;
+  background: linear-gradient(180deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-xs;
+  margin-right: $spacing-sm;
+}
+
+.dateGroupText {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  flex: 1;
+}
+
+.dateGroupCount {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  background: $color-bg-card;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+}
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xl * 3 $spacing-lg;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+}
+
+.emptyIcon {
+  font-size: 100rpx;
+  margin-bottom: $spacing-md;
+  opacity: 0.6;
+}
+
+.emptyTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.emptyDesc {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.emptyAction {
+  margin-top: $spacing-lg;
+  padding: $spacing-sm $spacing-xl;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.emptyActionText {
+  font-size: $font-size-md;
+  color: $color-text-white;
+  font-weight: $font-weight-medium;
+}
+
+.sectionDivider {
+  height: 2rpx;
+  background: $color-divider;
+  margin: $spacing-md 0;
+}

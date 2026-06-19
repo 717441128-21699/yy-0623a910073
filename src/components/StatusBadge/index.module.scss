@@ -1,0 +1,26 @@
+@use '@/styles/variables.scss' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-sm;
+  padding: 0 $spacing-sm;
+  
+  &.sm {
+    height: 36rpx;
+    min-width: 72rpx;
+  }
+  
+  &.md {
+    height: 44rpx;
+    min-width: 88rpx;
+    padding: 0 $spacing-md;
+  }
+}
+
+.text {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: 1;
+}
