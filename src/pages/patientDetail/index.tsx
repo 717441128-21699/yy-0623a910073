@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, ScrollView } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
 import styles from './index.module.scss';
-import { useClinicStore } from '@/store/clinicStore';
+import { useClinicStore, isNoShowResolved } from '@/store/clinicStore';
 import FollowupCard from '@/components/FollowupCard';
 import dayjs from 'dayjs';
 
@@ -24,7 +24,7 @@ const PatientDetailPage: React.FC = () => {
   }, [patientId, getFollowupsByPatientId]);
 
   const activeFollowups = useMemo(() => 
-    patientFollowups.filter(f => f.status !== 'completed' && f.status !== 'cancelled'),
+    patientFollowups.filter(f => f.status !== 'completed' && f.status !== 'cancelled' && !(f.status === 'no_show' && isNoShowResolved(f))),
     [patientFollowups]
   );
 

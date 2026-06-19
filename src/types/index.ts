@@ -50,6 +50,8 @@ export type FollowupStatus =
 
 export type FollowupUrgency = 'normal' | 'attention' | 'urgent';
 
+export type NoShowResolution = 'reschedule' | 'mark_important' | 'stop_followup';
+
 export interface FollowupRecord {
   id: string;
   patientId: string;
@@ -67,6 +69,8 @@ export interface FollowupRecord {
   frontDeskNote?: string;
   followupAttempts?: FollowupAttempt[];
   nextAction?: string;
+  noShowResolution?: NoShowResolution;
+  replacedByFollowupId?: string;
 }
 
 export interface FollowupAttempt {

@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import classnames from 'classnames';
 import styles from './index.module.scss';
 import FollowupCard from '@/components/FollowupCard';
-import { useClinicStore } from '@/store/clinicStore';
+import { useClinicStore, isNoShowResolved } from '@/store/clinicStore';
 import { isThisWeek, isNextWeek, formatDate, getRelativeDateLabel, getWeekday, isPast } from '@/utils/date';
 import type { FollowupRecord } from '@/types';
 
@@ -30,7 +30,7 @@ const TodayPage: React.FC = () => {
   });
 
   const activeFollowups = useMemo(() => 
-    followups.filter(f => f.status !== 'completed' && f.status !== 'cancelled'),
+    followups.filter(f => f.status !== 'completed' && f.status !== 'cancelled' && !(f.status === 'no_show' && isNoShowResolved(f))),
     [followups]
   );
 

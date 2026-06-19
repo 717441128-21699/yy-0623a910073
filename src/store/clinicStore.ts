@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import Taro from '@tarojs/taro';
-import type { Patient, FollowupRecord, FollowupAttempt, DoctorProfile, DailyStats, FollowupStatus, TreatmentType } from '@/types';
+import type { Patient, FollowupRecord, FollowupAttempt, DoctorProfile, DailyStats, FollowupStatus, TreatmentType, NoShowResolution } from '@/types';
 import { mockPatients } from '@/data/patients';
 import { mockFollowups } from '@/data/followups';
 import dayjs from 'dayjs';
@@ -26,6 +26,10 @@ const saveToStorage = <T>(key: string, data: T) => {
   } catch (err) {
     console.error('[ClinicStore] 写入storage失败:', key, err);
   }
+};
+
+const isNoShowResolved = (f: FollowupRecord): boolean => {
+  return !!f.noShowResolution;
 };
 
 interface ClinicState {
@@ -58,7 +62,7 @@ interface ClinicState {
   updateFollowupStatus: (id: string, status: FollowupStatus) => void;
   updateFollowup: (id: string, patch: Partial<FollowupRecord>) => void;
   addFollowupAttempt: (followupId: string, attempt: FollowupAttempt) => void;
-  resolveNoShow: (followupId: string, decision: 'reschedule' | 'mark_important' | 'stop_followup', note: string) => void;
+  resolveNoShow: (followupId: string, decision: NoShowResolution, note: string) => void;
   searchPatients: (keyword: string) => Patient[];
   _persist: () => void;
 }
@@ -86,18 +90,19 @@ export const useClinicStore = create<ClinicState>((set, get) => ({
     get().followups.filter(f => statuses.includes(f.status)),
   
   getFollowupsByDate: (date) => 
-    get().followups.filter(f => f.scheduledDate === date),
+    get().followups.filter(f => f.scheduledDate === date || (!f.scheduledDate && f.suggestedDate === date)),
   
   getTodayStats: () => {
     const today = dayjs().format('YYYY-MM-DD');
     const todayFollowups = get().getFollowupsByDate(today);
+    const unresolvedNoShow = todayFollowups.filter(f => f.status === 'no_show' && !isNoShowResolved(f)).length;
     return {
       date: today,
-      totalAppointments: todayFollowups.length,
+      totalAppointments: todayFollowups.filter(f => f.status !== 'no_show' || isNoShowResolved(f) ? false : true).length + todayFollowups.filter(f => f.status !== 'no_show').length,
       confirmed: todayFollowups.filter(f => f.status === 'scheduled_confirmed').length,
-      unconfirmed: todayFollowups.filter(f => f.status === 'scheduled_unconfirmed').length,
+      unconfirmed: todayFollowups.filter(f => f.status === 'scheduled_unconfirmed' || f.status === 'pending_schedule').length,
       completed: todayFollowups.filter(f => f.status === 'completed').length,
-      noShow: todayFollowups.filter(f => f.status === 'no_show').length,
+      noShow: unresolvedNoShow,
     };
   },
 
@@ -125,7 +130,12 @@ export const useClinicStore = create<ClinicState>((set, get) => ({
       if (data.replaceFollowupId) {
         updated = updated.map(f => 
           f.id === data.replaceFollowupId 
-            ? { ...f, status: 'cancelled' as FollowupStatus, nextAction: `已重新安排复诊（新记录 #${newFollowup.id}）` }
+            ? { 
+                ...f, 
+                noShowResolution: 'reschedule' as NoShowResolution, 
+                replacedByFollowupId: newFollowup.id,
+                nextAction: `已重新安排复诊（新记录 #${newFollowup.id}）`,
+              }
             : f
         );
       }
@@ -188,6 +198,7 @@ export const useClinicStore = create<ClinicState>((set, get) => ({
           ...f,
           followupAttempts: [...(f.followupAttempts || []), newAttempt],
           nextAction: `${decisionMap[decision]}（${now}）${note ? ' — ' + note : ''}`,
+          noShowResolution: decision,
         };
       }),
     }));
@@ -210,3 +221,5 @@ export const useClinicStore = create<ClinicState>((set, get) => ({
     saveToStorage(STORAGE_KEY_PATIENTS, patients);
   },
 }));
+
+export { isNoShowResolved };

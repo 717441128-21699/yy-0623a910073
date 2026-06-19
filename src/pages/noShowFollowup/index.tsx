@@ -4,9 +4,9 @@ import Taro, { useRouter } from '@tarojs/taro';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
 import styles from './index.module.scss';
-import { useClinicStore } from '@/store/clinicStore';
+import { useClinicStore, isNoShowResolved } from '@/store/clinicStore';
 import { formatDateTime } from '@/utils/date';
-import type { FollowupRecord, FollowupAttempt } from '@/types';
+import type { FollowupRecord, FollowupAttempt, NoShowResolution } from '@/types';
 
 type FilterType = 'all' | 'pending' | 'followed' | 'resolved';
 
@@ -22,6 +22,12 @@ const getResultInfo = (result: FollowupAttempt['result']) => {
     refused: { label: '拒绝复诊', cls: styles.attemptResultRefused },
   };
   return map[result] || { label: result, cls: '' };
+};
+
+const RESOLUTION_LABEL: Record<NoShowResolution, { icon: string; text: string; color: string }> = {
+  reschedule: { icon: '📅', text: '已重新安排', color: '#0FA5A5' },
+  mark_important: { icon: '📌', text: '已重点标记', color: '#F59E0B' },
+  stop_followup: { icon: '✋', text: '已停止追访', color: '#6B7280' },
 };
 
 const NoShowFollowupPage: React.FC = () => {
@@ -46,39 +52,38 @@ const NoShowFollowupPage: React.FC = () => {
     } else {
       switch (filterType) {
         case 'pending':
-          list = list.filter(f => !f.nextAction && (f.followupAttempts || []).length < 3);
+          list = list.filter(f => !isNoShowResolved(f));
           break;
         case 'followed':
-          list = list.filter(f => (f.followupAttempts || []).length >= 1);
+          list = list.filter(f => !isNoShowResolved(f) && (f.followupAttempts || []).length >= 1);
           break;
         case 'resolved':
-          list = list.filter(f => !!f.nextAction);
+          list = list.filter(f => isNoShowResolved(f));
           break;
       }
     }
     
     return list.sort((a, b) => {
-      const attemptsA = a.followupAttempts || [];
-      const attemptsB = b.followupAttempts || [];
-      if (attemptsA.length !== attemptsB.length) {
-        return attemptsA.length - attemptsB.length;
-      }
+      const aResolved = isNoShowResolved(a);
+      const bResolved = isNoShowResolved(b);
+      if (aResolved !== bResolved) return aResolved ? 1 : -1;
       return dayjs(b.createTime).valueOf() - dayjs(a.createTime).valueOf();
     });
   }, [noShowFollowups, filterType, singleId]);
 
   const stats = useMemo(() => {
     const total = noShowFollowups.length;
-    const pending = noShowFollowups.filter(f => !f.nextAction && (f.followupAttempts || []).length < 3).length;
-    const resolved = noShowFollowups.filter(f => !!f.nextAction).length;
+    const pending = noShowFollowups.filter(f => !isNoShowResolved(f) && (f.followupAttempts || []).length < 1).length;
+    const followed = noShowFollowups.filter(f => !isNoShowResolved(f) && (f.followupAttempts || []).length >= 1).length;
+    const resolved = noShowFollowups.filter(f => isNoShowResolved(f)).length;
     const totalAttempts = noShowFollowups.reduce((sum, f) => sum + (f.followupAttempts || []).length, 0);
-    return { total, pending, resolved, totalAttempts };
+    return { total, pending, followed, resolved, totalAttempts };
   }, [noShowFollowups]);
 
   const filterTabs = [
     { key: 'all' as FilterType, label: '全部', count: stats.total },
-    { key: 'pending' as FilterType, label: '待跟进', count: stats.pending, badge: stats.pending > 0 },
-    { key: 'followed' as FilterType, label: '跟进中', count: stats.total - stats.pending - stats.resolved },
+    { key: 'pending' as FilterType, label: '待跟进', count: stats.pending + stats.followed, badge: stats.pending + stats.followed > 0 },
+    { key: 'followed' as FilterType, label: '跟进中', count: stats.followed },
     { key: 'resolved' as FilterType, label: '已处理', count: stats.resolved },
   ];
 
@@ -91,12 +96,16 @@ const NoShowFollowupPage: React.FC = () => {
     Taro.navigateTo({ url: `/pages/followupDetail/index?id=${id}` });
   };
 
+  const handleViewNewFollowup = (newId: string) => {
+    Taro.navigateTo({ url: `/pages/followupDetail/index?id=${newId}` });
+  };
+
   const handleReschedule = (followup: FollowupRecord) => {
     const patient = getPatientById(followup.patientId);
     if (!patient) return;
     Taro.showModal({
       title: '重新安排',
-      content: `是否为${patient.name}重新安排${followup.treatmentTypeName}复诊？旧爽约记录将被标记为"已重新安排"`,
+      content: `是否为${patient.name}重新安排${followup.treatmentTypeName}复诊？`,
       confirmText: '重新安排',
       confirmColor: '#0FA5A5',
       success: (res) => {
@@ -146,6 +155,25 @@ const NoShowFollowupPage: React.FC = () => {
     Taro.navigateTo({ url: `/pages/patientDetail/index?id=${patientId}` });
   };
 
+  const renderResolutionBadge = (f: FollowupRecord) => {
+    if (!f.noShowResolution) return null;
+    const info = RESOLUTION_LABEL[f.noShowResolution];
+    return (
+      <View className={styles.nextActionBlock} style={{ borderLeftColor: info.color }}>
+        <Text className={styles.nextActionTitle}>{info.icon} {info.text}</Text>
+        <Text className={styles.nextActionText}>{f.nextAction}</Text>
+        {f.replacedByFollowupId && (
+          <View 
+            className={styles.linkToNewBtn}
+            onClick={(e: any) => { e.stopPropagation(); handleViewNewFollowup(f.replacedByFollowupId!); }}
+          >
+            <Text className={styles.linkToNewText}>查看新复诊安排 ›</Text>
+          </View>
+        )}
+      </View>
+    );
+  };
+
   return (
     <ScrollView className={styles.pageWrapper} scrollY>
       <View className={styles.header}>
@@ -162,7 +190,7 @@ const NoShowFollowupPage: React.FC = () => {
             <Text className={styles.statLabel}>联系次数</Text>
           </View>
           <View className={styles.statCol}>
-            <Text className={styles.statValue} style={{ color: '#FEF3C7' }}>{stats.resolved}</Text>
+            <Text className={styles.statValue} style={{ color: '#10B981' }}>{stats.resolved}</Text>
             <Text className={styles.statLabel}>已处理</Text>
           </View>
         </View>
@@ -207,9 +235,10 @@ const NoShowFollowupPage: React.FC = () => {
                 dayjs(b.time).valueOf() - dayjs(a.time).valueOf()
               );
               const lastConnected = attempts.find(a => a.result === 'connected' || a.result === 'rescheduled');
+              const resolved = isNoShowResolved(followup);
               
               return patient ? (
-                <View key={followup.id} className={styles.followupCard}>
+                <View key={followup.id} className={classnames(styles.followupCard, resolved && styles.followupCardResolved)}>
                   <View className={styles.cardHeader}>
                     <View className={styles.patientAvatar} onClick={() => goToPatient(patient.id)}>
                       <Text className={styles.avatarText}>{patient.name.charAt(0)}</Text>
@@ -308,14 +337,9 @@ const NoShowFollowupPage: React.FC = () => {
                     </View>
                   )}
 
-                  {followup.nextAction && (
-                    <View className={styles.nextActionBlock}>
-                      <Text className={styles.nextActionTitle}>📍 已决定处理策略</Text>
-                      <Text className={styles.nextActionText}>{followup.nextAction}</Text>
-                    </View>
-                  )}
+                  {renderResolutionBadge(followup)}
 
-                  {!followup.nextAction && (
+                  {!resolved && (
                     <>
                       <Text className={styles.attemptTitle}>👨‍⚕️ 医生决策：我决定...</Text>
                       <View className={styles.decisionRow}>

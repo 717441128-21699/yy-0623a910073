@@ -4,8 +4,8 @@ import Taro, { useRouter } from '@tarojs/taro';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
 import styles from './index.module.scss';
-import { useClinicStore } from '@/store/clinicStore';
-import type { FollowupStatus, FollowupAttempt } from '@/types';
+import { useClinicStore, isNoShowResolved } from '@/store/clinicStore';
+import type { FollowupStatus, FollowupAttempt, NoShowResolution } from '@/types';
 import { getStatusInfo, getUrgencyColor } from '@/data/followups';
 import { formatDateTime, getWeekday } from '@/utils/date';
 
@@ -160,6 +160,27 @@ const FollowupDetailPage: React.FC = () => {
           </>
         );
       case 'no_show':
+        if (isNoShowResolved(followup)) {
+          const resolutionLabel: Record<NoShowResolution, string> = {
+            reschedule: '📅 已重新安排',
+            mark_important: '📌 已重点标记',
+            stop_followup: '✋ 已停止追访',
+          };
+          return (
+            <>
+              <View className={styles.actionBtn}>
+                <Text className={styles.actionBtnText}>{followup.noShowResolution ? resolutionLabel[followup.noShowResolution] : '已处理'}</Text>
+              </View>
+              {followup.replacedByFollowupId && (
+                <View className={styles.primaryBtn} onClick={() => {
+                  Taro.navigateTo({ url: `/pages/followupDetail/index?id=${followup.replacedByFollowupId}` });
+                }}>
+                  <Text className={styles.primaryBtnText}>查看新复诊安排 ›</Text>
+                </View>
+              )}
+            </>
+          );
+        }
         return (
           <>
             <View className={styles.actionBtn} onClick={handleCall}>

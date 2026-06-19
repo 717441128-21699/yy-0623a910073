@@ -121,6 +121,11 @@
   border-left: 6rpx solid $color-error;
 }
 
+.followupCardResolved {
+  border-left-color: $color-text-tertiary;
+  opacity: 0.85;
+}
+
 .cardHeader {
   display: flex;
   align-items: flex-start;
@@ -351,6 +356,21 @@
   font-size: $font-size-sm;
   color: $color-text-secondary;
   line-height: 1.6;
+}
+
+.linkToNewBtn {
+  margin-top: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  background: rgba(15, 165, 165, 0.1);
+  border-radius: $radius-sm;
+  display: inline-flex;
+  align-items: center;
+}
+
+.linkToNewText {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  font-weight: $font-weight-semibold;
 }
 
 .decisionRow {

@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 import StatCard from '@/components/StatCard';
 import SectionHeader from '@/components/SectionHeader';
 import FollowupCard from '@/components/FollowupCard';
-import { useClinicStore } from '@/store/clinicStore';
+import { useClinicStore, isNoShowResolved } from '@/store/clinicStore';
 import { formatDate } from '@/utils/date';
 import type { FollowupStatus } from '@/types';
 
@@ -31,7 +31,7 @@ const TodayPage: React.FC = () => {
     const unconfirmed = todayFollowups.filter(f => f.status === 'scheduled_unconfirmed').length;
     const pending = todayFollowups.filter(f => f.status === 'pending_schedule').length;
     const completed = todayFollowups.filter(f => f.status === 'completed').length;
-    const noShow = todayFollowups.filter(f => f.status === 'no_show').length;
+    const noShow = todayFollowups.filter(f => f.status === 'no_show' && !isNoShowResolved(f)).length;
     return { total, confirmed, unconfirmed, pending, completed, noShow };
   }, [todayFollowups]);
 
@@ -42,7 +42,7 @@ const TodayPage: React.FC = () => {
       no_show: ['no_show'],
     };
     return todayFollowups
-      .filter(f => statusMap[activeTab].includes(f.status))
+      .filter(f => statusMap[activeTab].includes(f.status) && !(f.status === 'no_show' && isNoShowResolved(f)))
       .sort((a, b) => (a.scheduledTime || '').localeCompare(b.scheduledTime || ''));
   }, [todayFollowups, activeTab]);
 
