@@ -95,14 +95,14 @@ export const useClinicStore = create<ClinicState>((set, get) => ({
   getTodayStats: () => {
     const today = dayjs().format('YYYY-MM-DD');
     const todayFollowups = get().getFollowupsByDate(today);
-    const unresolvedNoShow = todayFollowups.filter(f => f.status === 'no_show' && !isNoShowResolved(f)).length;
+    const valid = todayFollowups.filter(f => !(f.status === 'no_show' && isNoShowResolved(f)));
     return {
       date: today,
-      totalAppointments: todayFollowups.filter(f => f.status !== 'no_show' || isNoShowResolved(f) ? false : true).length + todayFollowups.filter(f => f.status !== 'no_show').length,
-      confirmed: todayFollowups.filter(f => f.status === 'scheduled_confirmed').length,
-      unconfirmed: todayFollowups.filter(f => f.status === 'scheduled_unconfirmed' || f.status === 'pending_schedule').length,
-      completed: todayFollowups.filter(f => f.status === 'completed').length,
-      noShow: unresolvedNoShow,
+      totalAppointments: valid.length,
+      confirmed: valid.filter(f => f.status === 'scheduled_confirmed').length,
+      unconfirmed: valid.filter(f => f.status === 'scheduled_unconfirmed' || f.status === 'pending_schedule').length,
+      completed: valid.filter(f => f.status === 'completed').length,
+      noShow: valid.filter(f => f.status === 'no_show').length,
     };
   },
 
@@ -128,13 +128,22 @@ export const useClinicStore = create<ClinicState>((set, get) => ({
     set((state) => {
       let updated = [newFollowup, ...state.followups];
       if (data.replaceFollowupId) {
+        const now = dayjs().format('YYYY-MM-DD HH:mm');
         updated = updated.map(f => 
           f.id === data.replaceFollowupId 
             ? { 
                 ...f, 
                 noShowResolution: 'reschedule' as NoShowResolution, 
                 replacedByFollowupId: newFollowup.id,
-                nextAction: `已重新安排复诊（新记录 #${newFollowup.id}）`,
+                nextAction: `📅 已重新安排复诊（新记录 #${newFollowup.id}）（${now}）`,
+                followupAttempts: [...(f.followupAttempts || []), {
+                  id: `a${Date.now()}`,
+                  time: now,
+                  method: 'wechat',
+                  result: 'rescheduled' as const,
+                  note: `📅 医生决定重新安排：已创建新复诊 #${newFollowup.id}`,
+                  operator: '李医生',
+                }],
               }
             : f
         );

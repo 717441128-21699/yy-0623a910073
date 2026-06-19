@@ -106,11 +106,10 @@ const NoShowFollowupPage: React.FC = () => {
     Taro.showModal({
       title: '重新安排',
       content: `是否为${patient.name}重新安排${followup.treatmentTypeName}复诊？`,
-      confirmText: '重新安排',
+      confirmText: '去安排',
       confirmColor: '#0FA5A5',
       success: (res) => {
         if (res.confirm) {
-          resolveNoShow(followup.id, 'reschedule', '将重新安排复诊时间');
           Taro.navigateTo({ url: `/pages/scheduleFollowup/index?patientId=${followup.patientId}&replaceFollowupId=${followup.id}` });
         }
       },

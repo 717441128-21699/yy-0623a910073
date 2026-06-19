@@ -26,12 +26,13 @@ const TodayPage: React.FC = () => {
   const todayFollowups = useMemo(() => getFollowupsByDate(dateStr), [getFollowupsByDate, dateStr]);
 
   const stats = useMemo(() => {
-    const total = todayFollowups.length;
-    const confirmed = todayFollowups.filter(f => f.status === 'scheduled_confirmed').length;
-    const unconfirmed = todayFollowups.filter(f => f.status === 'scheduled_unconfirmed').length;
-    const pending = todayFollowups.filter(f => f.status === 'pending_schedule').length;
-    const completed = todayFollowups.filter(f => f.status === 'completed').length;
-    const noShow = todayFollowups.filter(f => f.status === 'no_show' && !isNoShowResolved(f)).length;
+    const valid = todayFollowups.filter(f => !(f.status === 'no_show' && isNoShowResolved(f)));
+    const total = valid.length;
+    const confirmed = valid.filter(f => f.status === 'scheduled_confirmed').length;
+    const unconfirmed = valid.filter(f => f.status === 'scheduled_unconfirmed').length;
+    const pending = valid.filter(f => f.status === 'pending_schedule').length;
+    const completed = valid.filter(f => f.status === 'completed').length;
+    const noShow = valid.filter(f => f.status === 'no_show').length;
     return { total, confirmed, unconfirmed, pending, completed, noShow };
   }, [todayFollowups]);
 

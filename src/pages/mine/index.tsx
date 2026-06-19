@@ -3,7 +3,7 @@ import { View, Text, ScrollView } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import dayjs from 'dayjs';
 import styles from './index.module.scss';
-import { useClinicStore } from '@/store/clinicStore';
+import { useClinicStore, isNoShowResolved } from '@/store/clinicStore';
 
 interface MenuItemConfig {
   icon: string;
@@ -26,9 +26,9 @@ const MinePage: React.FC = () => {
       return dayjs(d).isAfter(thisMonth) && f.status === 'completed';
     }).length;
     const pendingSchedule = followups.filter(f => f.status === 'pending_schedule').length;
-    const noShowCount = followups.filter(f => f.status === 'no_show').length;
+    const noShowCount = followups.filter(f => f.status === 'no_show' && !isNoShowResolved(f)).length;
     const urgentPending = followups.filter(f => 
-      f.urgency === 'urgent' && f.status !== 'completed' && f.status !== 'cancelled'
+      f.urgency === 'urgent' && f.status !== 'completed' && f.status !== 'cancelled' && !(f.status === 'no_show' && isNoShowResolved(f))
     ).length;
 
     return {
