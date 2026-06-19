@@ -1,13 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { View, Text, ScrollView } from '@tarojs/components';
-import Taro, { useRouter, useDidShow } from '@tarojs/taro';
+import Taro, { useRouter } from '@tarojs/taro';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
 import styles from './index.module.scss';
 import { useClinicStore } from '@/store/clinicStore';
 import { formatDateTime } from '@/utils/date';
 import type { FollowupRecord, FollowupAttempt } from '@/types';
-import StatusBadge from '@/components/StatusBadge';
 
 type FilterType = 'all' | 'pending' | 'followed' | 'resolved';
 
@@ -32,7 +31,7 @@ const NoShowFollowupPage: React.FC = () => {
   
   const followups = useClinicStore(state => state.followups);
   const getPatientById = useClinicStore(state => state.getPatientById);
-  const updateFollowupStatus = useClinicStore(state => state.updateFollowupStatus);
+  const resolveNoShow = useClinicStore(state => state.resolveNoShow);
 
   const noShowFollowups = useMemo(() => 
     followups.filter(f => f.status === 'no_show'),
@@ -97,12 +96,13 @@ const NoShowFollowupPage: React.FC = () => {
     if (!patient) return;
     Taro.showModal({
       title: '重新安排',
-      content: `是否为${patient.name}重新安排${followup.treatmentTypeName}复诊？`,
+      content: `是否为${patient.name}重新安排${followup.treatmentTypeName}复诊？旧爽约记录将被标记为"已重新安排"`,
       confirmText: '重新安排',
       confirmColor: '#0FA5A5',
       success: (res) => {
         if (res.confirm) {
-          Taro.navigateTo({ url: `/pages/scheduleFollowup/index?patientId=${followup.patientId}` });
+          resolveNoShow(followup.id, 'reschedule', '将重新安排复诊时间');
+          Taro.navigateTo({ url: `/pages/scheduleFollowup/index?patientId=${followup.patientId}&replaceFollowupId=${followup.id}` });
         }
       },
     });
@@ -118,6 +118,7 @@ const NoShowFollowupPage: React.FC = () => {
       confirmColor: '#F59E0B',
       success: (res) => {
         if (res.confirm) {
+          resolveNoShow(followup.id, 'mark_important', followup.doctorNote || followup.treatmentTypeName);
           Taro.showToast({ title: '已添加重点标记', icon: 'success' });
         }
       },
@@ -134,6 +135,7 @@ const NoShowFollowupPage: React.FC = () => {
       confirmColor: '#DC2626',
       success: (res) => {
         if (res.confirm) {
+          resolveNoShow(followup.id, 'stop_followup', '停止追访，转低优先级关注');
           Taro.showToast({ title: '已停止追访', icon: 'none' });
         }
       },

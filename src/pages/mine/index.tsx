@@ -4,7 +4,6 @@ import Taro from '@tarojs/taro';
 import dayjs from 'dayjs';
 import styles from './index.module.scss';
 import { useClinicStore } from '@/store/clinicStore';
-import StatusBadge from '@/components/StatusBadge';
 
 interface MenuItemConfig {
   icon: string;
@@ -19,9 +18,6 @@ const MinePage: React.FC = () => {
   const doctorProfile = useClinicStore(state => state.doctorProfile);
   const patients = useClinicStore(state => state.patients);
   const followups = useClinicStore(state => state.followups);
-  const getTodayStats = useClinicStore(state => state.getTodayStats);
-
-  const todayStats = useMemo(() => getTodayStats(), [getTodayStats]);
 
   const overallStats = useMemo(() => {
     const thisMonth = dayjs().startOf('month');

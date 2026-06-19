@@ -1,13 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { View, Text, ScrollView } from '@tarojs/components';
-import Taro, { useDidShow, usePullDownRefresh } from '@tarojs/taro';
+import Taro, { usePullDownRefresh } from '@tarojs/taro';
 import dayjs from 'dayjs';
 import styles from './index.module.scss';
 import StatCard from '@/components/StatCard';
 import SectionHeader from '@/components/SectionHeader';
 import FollowupCard from '@/components/FollowupCard';
 import { useClinicStore } from '@/store/clinicStore';
-import { formatDate, getWeekday } from '@/utils/date';
+import { formatDate } from '@/utils/date';
 import type { FollowupStatus } from '@/types';
 
 type TabType = 'confirmed' | 'unconfirmed' | 'no_show';
@@ -21,8 +21,7 @@ const TodayPage: React.FC = () => {
   const doctorProfile = useClinicStore(state => state.doctorProfile);
   
   const dateStr = formatDate(currentDate.toDate());
-  const weekday = getWeekday(currentDate.toDate());
-  const displayDate = `${currentDate.format('M月D日')} ${weekday}`;
+  const displayDate = `${currentDate.format('M月D日')} ${formatDate(currentDate.toDate(), 'ddd')}`;
 
   const todayFollowups = useMemo(() => getFollowupsByDate(dateStr), [getFollowupsByDate, dateStr]);
 
@@ -84,10 +83,6 @@ const TodayPage: React.FC = () => {
     if (h < 14) return '中午好';
     if (h < 18) return '下午好';
     return '晚上好';
-  };
-
-  const goToPatientList = () => {
-    Taro.switchTab({ url: '/pages/patients/index' });
   };
 
   const goToNoShowPage = () => {

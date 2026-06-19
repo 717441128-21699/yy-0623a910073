@@ -4,7 +4,6 @@ import Taro, { useRouter } from '@tarojs/taro';
 import styles from './index.module.scss';
 import { useClinicStore } from '@/store/clinicStore';
 import FollowupCard from '@/components/FollowupCard';
-import StatusBadge from '@/components/StatusBadge';
 import dayjs from 'dayjs';
 
 const PatientDetailPage: React.FC = () => {
@@ -165,7 +164,7 @@ const PatientDetailPage: React.FC = () => {
           </View>
         )}
 
-        {(patient.allergies?.length > 0 || patient.chronicDiseases?.length > 0) && (
+        {((patient.allergies && patient.allergies.length > 0) || (patient.chronicDiseases && patient.chronicDiseases.length > 0)) && (
           <View className={styles.sectionCard}>
             <View className={styles.sectionHeader}>
               <View className={styles.sectionTitle}>

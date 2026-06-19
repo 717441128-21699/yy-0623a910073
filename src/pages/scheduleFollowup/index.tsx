@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { View, Text, ScrollView, Input, Textarea } from '@tarojs/components';
+import { View, Text, ScrollView, Textarea } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
@@ -12,8 +12,6 @@ import {
 } from '@/types';
 import type { TreatmentType, FollowupUrgency } from '@/types';
 import { addDays, formatDate } from '@/utils/date';
-
-type PurposeOption = (typeof FOLLOWUP_PURPOSE_OPTIONS)[number] | 'custom';
 
 const treatmentIcons: Record<TreatmentType, string> = {
   filling_observe: '🦷',
@@ -43,6 +41,7 @@ const urgencyOptions = [
 const ScheduleFollowupPage: React.FC = () => {
   const router = useRouter();
   const patientId = router.params.patientId as string;
+  const replaceFollowupId = router.params.replaceFollowupId as string | undefined;
   
   const getPatientById = useClinicStore(state => state.getPatientById);
   const addFollowup = useClinicStore(state => state.addFollowup);
@@ -108,7 +107,7 @@ const ScheduleFollowupPage: React.FC = () => {
     }
   };
 
-  const handlePurposeSelect = (p: PurposeOption) => {
+  const handlePurposeSelect = (p: string) => {
     if (p === 'custom') {
       setIsCustomPurpose(true);
     } else {
@@ -140,6 +139,7 @@ const ScheduleFollowupPage: React.FC = () => {
         intervalDays,
         doctorNote,
         urgency,
+        replaceFollowupId,
       });
 
       console.log('[ScheduleFollowup] 复诊安排成功:', {

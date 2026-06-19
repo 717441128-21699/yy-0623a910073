@@ -1,8 +1,32 @@
 import { create } from 'zustand';
-import type { Patient, FollowupRecord, DoctorProfile, DailyStats, FollowupStatus, TreatmentType } from '@/types';
+import Taro from '@tarojs/taro';
+import type { Patient, FollowupRecord, FollowupAttempt, DoctorProfile, DailyStats, FollowupStatus, TreatmentType } from '@/types';
 import { mockPatients } from '@/data/patients';
 import { mockFollowups } from '@/data/followups';
 import dayjs from 'dayjs';
+
+const STORAGE_KEY_FOLLOWUPS = 'clinic_followups';
+const STORAGE_KEY_PATIENTS = 'clinic_patients';
+
+const loadFromStorage = <T>(key: string, fallback: T): T => {
+  try {
+    const raw = Taro.getStorageSync(key);
+    if (raw) {
+      return JSON.parse(raw) as T;
+    }
+  } catch (err) {
+    console.error('[ClinicStore] 读取storage失败:', key, err);
+  }
+  return fallback;
+};
+
+const saveToStorage = <T>(key: string, data: T) => {
+  try {
+    Taro.setStorageSync(key, JSON.stringify(data));
+  } catch (err) {
+    console.error('[ClinicStore] 写入storage失败:', key, err);
+  }
+};
 
 interface ClinicState {
   patients: Patient[];
@@ -28,16 +52,20 @@ interface ClinicState {
     intervalDays: number;
     doctorNote: string;
     urgency: 'normal' | 'attention' | 'urgent';
+    replaceFollowupId?: string;
   }) => void;
   
   updateFollowupStatus: (id: string, status: FollowupStatus) => void;
-  addFollowupAttempt: (followupId: string, attempt: FollowupRecord['followupAttempts'][0]) => void;
+  updateFollowup: (id: string, patch: Partial<FollowupRecord>) => void;
+  addFollowupAttempt: (followupId: string, attempt: FollowupAttempt) => void;
+  resolveNoShow: (followupId: string, decision: 'reschedule' | 'mark_important' | 'stop_followup', note: string) => void;
   searchPatients: (keyword: string) => Patient[];
+  _persist: () => void;
 }
 
 export const useClinicStore = create<ClinicState>((set, get) => ({
-  patients: mockPatients,
-  followups: mockFollowups,
+  patients: loadFromStorage(STORAGE_KEY_PATIENTS, mockPatients),
+  followups: loadFromStorage(STORAGE_KEY_FOLLOWUPS, mockFollowups),
   doctorProfile: {
     name: '李明远',
     title: '副主任医师',
@@ -91,7 +119,21 @@ export const useClinicStore = create<ClinicState>((set, get) => ({
       createTime: dayjs().format('YYYY-MM-DD HH:mm'),
       followupAttempts: [],
     };
-    set((state) => ({ followups: [newFollowup, ...state.followups] }));
+    
+    set((state) => {
+      let updated = [newFollowup, ...state.followups];
+      if (data.replaceFollowupId) {
+        updated = updated.map(f => 
+          f.id === data.replaceFollowupId 
+            ? { ...f, status: 'cancelled' as FollowupStatus, nextAction: `已重新安排复诊（新记录 #${newFollowup.id}）` }
+            : f
+        );
+      }
+      return { followups: updated };
+    });
+    
+    get()._persist();
+    console.log('[ClinicStore] 新增复诊:', newFollowup.id, data.replaceFollowupId ? `(替换旧爽约: ${data.replaceFollowupId})` : '');
   },
 
   updateFollowupStatus: (id, status) => {
@@ -100,6 +142,16 @@ export const useClinicStore = create<ClinicState>((set, get) => ({
         f.id === id ? { ...f, status } : f
       ),
     }));
+    get()._persist();
+  },
+
+  updateFollowup: (id, patch) => {
+    set((state) => ({
+      followups: state.followups.map(f => 
+        f.id === id ? { ...f, ...patch } : f
+      ),
+    }));
+    get()._persist();
   },
 
   addFollowupAttempt: (followupId, attempt) => {
@@ -110,6 +162,37 @@ export const useClinicStore = create<ClinicState>((set, get) => ({
           : f
       ),
     }));
+    get()._persist();
+  },
+
+  resolveNoShow: (followupId, decision, note) => {
+    const now = dayjs().format('YYYY-MM-DD HH:mm');
+    const decisionMap = {
+      reschedule: '📅 医生决定重新安排',
+      mark_important: '📌 医生标记为重点关注',
+      stop_followup: '✋ 医生决定停止追访',
+    };
+    
+    set((state) => ({
+      followups: state.followups.map(f => {
+        if (f.id !== followupId) return f;
+        const newAttempt: FollowupAttempt = {
+          id: `a${Date.now()}`,
+          time: now,
+          method: 'wechat',
+          result: decision === 'reschedule' ? 'rescheduled' : decision === 'stop_followup' ? 'refused' : 'connected',
+          note: `${decisionMap[decision]}：${note}`,
+          operator: '李医生',
+        };
+        return {
+          ...f,
+          followupAttempts: [...(f.followupAttempts || []), newAttempt],
+          nextAction: `${decisionMap[decision]}（${now}）${note ? ' — ' + note : ''}`,
+        };
+      }),
+    }));
+    get()._persist();
+    console.log('[ClinicStore] 爽约处理:', followupId, decision);
   },
 
   searchPatients: (keyword) => {
@@ -119,5 +202,11 @@ export const useClinicStore = create<ClinicState>((set, get) => ({
       p.phone.includes(keyword) ||
       (p.medicalRecordNo && p.medicalRecordNo.toLowerCase().includes(lowerKeyword))
     );
+  },
+
+  _persist: () => {
+    const { followups, patients } = get();
+    saveToStorage(STORAGE_KEY_FOLLOWUPS, followups);
+    saveToStorage(STORAGE_KEY_PATIENTS, patients);
   },
 }));

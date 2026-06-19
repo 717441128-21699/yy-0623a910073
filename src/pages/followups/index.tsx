@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 import FollowupCard from '@/components/FollowupCard';
 import { useClinicStore } from '@/store/clinicStore';
 import { isThisWeek, isNextWeek, formatDate, getRelativeDateLabel, getWeekday, isPast } from '@/utils/date';
-import type { FollowupRecord, FollowupStatus } from '@/types';
+import type { FollowupRecord } from '@/types';
 
 type DateFilterType = 'all' | 'today' | 'this_week' | 'next_week' | 'this_month' | 'overdue' | 'pending';
 type SortType = 'date_asc' | 'date_desc' | 'urgency';
@@ -17,11 +17,9 @@ const TodayPage: React.FC = () => {
   const [dateFilter, setDateFilter] = useState<DateFilterType>('this_week');
   const [sortType, setSortType] = useState<SortType>('date_asc');
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [searchFocused, setSearchFocused] = useState(false);
   
   const followups = useClinicStore(state => state.followups);
   const searchPatients = useClinicStore(state => state.searchPatients);
-  const getPatientById = useClinicStore(state => state.getPatientById);
 
   usePullDownRefresh(() => {
     setIsRefreshing(true);
@@ -37,7 +35,6 @@ const TodayPage: React.FC = () => {
   );
 
   const overviewStats = useMemo(() => {
-    const today = dayjs();
     let overdue = 0;
     let thisWeek = 0;
     let nextWeek = 0;
@@ -153,8 +150,6 @@ const TodayPage: React.FC = () => {
             placeholderClass={styles.searchPlaceholder as any}
             value={searchText}
             onInput={(e) => setSearchText(e.detail.value)}
-            onFocus={() => setSearchFocused(true)}
-            onBlur={() => setSearchFocused(false)}
           />
           {searchText && (
             <View className={styles.searchBtn} onClick={() => setSearchText('')}>

@@ -5,7 +5,6 @@ import dayjs from 'dayjs';
 import classnames from 'classnames';
 import styles from './index.module.scss';
 import { useClinicStore } from '@/store/clinicStore';
-import StatusBadge from '@/components/StatusBadge';
 import type { FollowupStatus, FollowupAttempt } from '@/types';
 import { getStatusInfo, getUrgencyColor } from '@/data/followups';
 import { formatDateTime, getWeekday } from '@/utils/date';
